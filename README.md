@@ -1,4 +1,7 @@
-# Play ROCK PAPER SISSOR with your COMPUTER using your WEBCAM
+# Play ROCK PAPER SCISSOR with your COMPUTER using your WEBCAM
+
+YOUTUBE LINK: 
+https://www.youtube.com/watch?v=vCV4Z_0vxwk&ab_channel=LearnBasicsFirst 
 
 python version: Python 3.10.10
 
