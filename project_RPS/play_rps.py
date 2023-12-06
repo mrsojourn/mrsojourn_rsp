@@ -6,16 +6,17 @@ import mediapipe as mp
 from utils_rps.HandTrackingModule import HandDetector
 from utils_rps.FaceDetectionModule import FaceDetector
 
+# Initialize hand detector and face detector
 detectorH = HandDetector(maxHands=2, detectionCon=0.8)
 detectorF = FaceDetector(minDetectionCon=0.5, modelSelection=1)
 
-
+# Set video capture properties
 w, h = 640, 480
 cap = cv2.VideoCapture(0)
 cap.set(3, w)
 cap.set(4, h)
 
-
+# Load Rock-Paper-Scissors images
 folderPath = 'RPS'
 myList = os.listdir(folderPath)
 rpc_img = []
@@ -35,8 +36,11 @@ while True:
     _, img = cap.read()
     hc, wc, c = rpc_img[0].shape
 
+    # Find hands in the image
     img = detectorH.findHands(img)
     lmList, bbox = detectorH.findPosition(img)
+
+    # Find faces in the image
     img, bboxsFace = detectorF.findFaces(img)
 
     if start:
@@ -60,9 +64,7 @@ while True:
                         elif fingers == [0, 1, 1, 0, 0]:
                             gesture = 'Scissor'
 
-
                         num = random.randint(0, 2)
-                        # img[0:hc, 0:wc] = rpc_img[num]
 
                         if (gesture == 'Paper' and num == 1) or (gesture == 'Rock' and num == 2) or (gesture == 'Scissor' and num == 0):
                             result = 'You WIN'
@@ -72,14 +74,11 @@ while True:
                             result = 'You LOSE'
 
                         cv2.putText(img, f'{result}'.upper(),(135, 150),cv2.FONT_HERSHEY_PLAIN, 6, (0, 255, 0), 4)
-
                         cv2.putText(img, f'{gesture}'.upper(),(115, 150),cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
-
 
     if count_time:
         img[0:hc, 0:wc] = rpc_img[num]
-        cv2.putText(img, f'{result}'.upper(), (135, 150),
-                    cv2.FONT_HERSHEY_PLAIN, 6, (0, 255, 0), 4)
+        cv2.putText(img, f'{result}'.upper(), (135, 150), cv2.FONT_HERSHEY_PLAIN, 6, (0, 255, 0), 4)
 
     cv2.putText(img, 'Press \'s\' to start. Use left hand'.upper(), (150, 450), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 0), 1)
 
